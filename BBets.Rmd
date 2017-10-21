@@ -1,0 +1,49 @@
+---
+title: "Brownlows Bets"
+author: "Put your name here!"
+date: "put the date here"
+output: html_document: default
+ ---
+
+<!-- We recommend you use git branches -- create a separate branch for each major section i.e. Introduction, Methods, Results, Inferential Results, and Discussion and Conclusions - leave the YAML block untouched until the final merge where you put in your own name !-->
+
+# Introduction
+
+<!--In this section you explain what you are trying to show.  Where did the data come from?  What is the research or other question you are trying to answer?!-->
+
+ At the first day of class there are 35 students in Math Statistics class and professor Brownlow always proposes this bet to his students "I will wager $2 to your bet of $1 that at least two people in today's class have  the same birthday.  He tells me he has made that bet 1137 times so far. Where do you think his profits are? Discuss this in a markdown document
+
+# Methods
+
+<!--Decide on your methods:  In this section explain the approach you will take to attack the issue --- how will you decide on a likely estimate of professor Brownlow's earnings or losses after 1137 bets. Also explain how you construct a 95% confidence interval about your estimate of his winnings !-->
+
+
+#Profit Estimate
+
+<!--Explain and display the results of your method of coming up with the estimate of professor Brownlows betting!-->
+```{r}
+bdays <- 1:365
+m <- 0
+for(i in 1:1137){
+   class <- sample(x=bdays, size = 35,replace=TRUE)
+   dc <- duplicated(class)
+   dc2 <- sum(dc)
+   if(dc2==0) {
+     m <- m-2
+   }
+   if(dc2!=0)
+     m <- m + 1 
+}
+print(m)
+```
+
+
+# Confidence interval of Brownlows earning
+
+<!--Explain and display your method of coming up with a 95% confidence interval of  professor Brownlows-->
+
+
+# Discussion and Conclusion
+
+<!--Discussion and conclusion here.  If professor Brownlow is consistantly making or losing money how could he change his payout so that his profits center on zero?  Also discuss what size his class should be in order to have his current scheme balance at zero profit.!-->
+
