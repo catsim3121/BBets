@@ -42,6 +42,84 @@ print(m)
 
 <!--Explain and display your method of coming up with a 95% confidence interval of  professor Brownlows-->
 
+```{r set-up, eval=TRUE}
+population <- bdays <- 1:365
+m <- 0
+for(i in 1:1137){
+   class <- sample(x=bdays, size = 35,replace=TRUE)
+   dc <- duplicated(class)
+   dc2 <- sum(dc)
+   if(dc2==0) {
+     m <- m-2
+   }
+   if(dc2!=0)
+     m <- m + 1 
+}
+print(m)
+samp_mean <- rep(NA, 50)
+samp_sd <- rep(NA, 50)
+n <- 35
+```
+
+```{r loop, eval=TRUE, tidy = FALSE}
+for(i in 1:50){
+  samp <- sample(population, n) 
+  samp_mean[i] <- mean(samp)   
+  samp_sd[i] <- sd(samp)        
+}
+```
+
+```{r ci50, eval=TRUE}
+lower_vector <- samp_mean + qnorm(p=.05) * samp_sd / sqrt(n) 
+upper_vector <- samp_mean + qnorm(p=.95) * samp_sd / sqrt(n)
+```
+
+```{r first-interval, eval=TRUE}
+c(lower_vector[1], upper_vector[1])
+```
+
+```{r}
+contains <- function(lo,hi,m){
+   if(m>= lo & m <= hi) return(TRUE)
+   else return(FALSE)
+}
+```
+
+
+```{r}
+plot_ci <- function(lo, hi, m){
+  par(mar=c(2, 1, 1, 1), mgp=c(2.7, 0.7, 0))
+  k <- 50
+  ci.max <- max(rowSums(matrix(c(-1*lo,hi),ncol=2)))
+
+  xR <- m + ci.max*c(-1, 1)
+  yR <- c(0, 41*k/40)
+
+  plot(xR, yR, type='n', xlab='', ylab='', axes=FALSE)
+  abline(v=m, lty=2, col='#00000088')
+  axis(1, at=m, paste("mu = ",round(m,4)), cex.axis=1.15)
+  #axis(2)
+  for(i in 1:k){
+    x <- mean(c(hi[i],lo[i]))
+	  ci <- c(lo[i],hi[i])
+	  if(contains(lo[i],hi[i],m)==FALSE){
+		  col <- "#F05133"
+		  points(x, i, cex=1.4, col=col)
+#		  points(x, i, pch=20, cex=1.2, col=col)
+		  lines(ci, rep(i, 2), col=col, lwd=5)
+	  }
+	  col <- 1
+  	points(x, i, pch=20, cex=1.2, col=col)
+	  lines(ci, rep(i, 2), col=col)
+  }
+}
+```
+
+
+```{r plot-ci, eval=TRUE}
+    plot_ci(lower_vector, upper_vector, mean(population))
+```
+
 
 # Discussion and Conclusion
 
