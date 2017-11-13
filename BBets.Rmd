@@ -132,3 +132,4 @@ I first set the population as the total amount of money Brownlow gets with each 
 
 <!--Discussion and conclusion here.  If professor Brownlow is consistantly making or losing money how could he change his payout so that his profits center on zero?  Also discuss what size his class should be in order to have his current scheme balance at zero profit.!-->
 
+From the evidence provided by the r code and confidence interval, Brownlow seems to consistently make profit from these bets over the years. For the profits to center at zero, Brownlow would have to bet more money each time he lost the bet. The size of his class should be around fifty to sixty students so that his balance is zero profit. 
