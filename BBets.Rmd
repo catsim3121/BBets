@@ -21,24 +21,35 @@ output: html_document: default
 #Profit Estimate
 
 <!--Explain and display the results of your method of coming up with the estimate of professor Brownlows betting!-->
+First we construst our birthday bucket 
+
 ```{r}
 bdays <- 1:365
-m <- 0
-for(i in 1:1137){
-   class <- sample(x=bdays, size = 35,replace=TRUE)
-   dc <- duplicated(class)
-   dc2 <- sum(dc)
-   if(dc2==0) {
-     m <- m-2
-   }
-   if(dc2!=0)
-     m <- m + 1 
+#bank is a vector in which we add Brownlows profit or loss for each class 
+bank <- numeric(1137)
+```
+
+Now we grab 35 of these with replacement to form our class
+Need to see if any two are the same for all 1137 bets.
+
+```{r}
+for (i in 1137) {
+class <- sample(x=bdays, size= 35,replace = TRUE)
+result <- anyDuplicated(class)
+bank[i] <- ifelse(result==0,-2,1)
 }
-print(m)
+```
+
+Now let us make a profit estimate 
+
+```{r}
+profit <- sum(bank)
+print(profit)
 ```
 
 
-Brownlow made an estimate of $500 in the 1137 bets he made. First I created an R code that will allow us to get an estimate of the profits Brownlow has made so far. First I created a vector named bday that contained numbers from 1 to 365 to represent how many days in a year. A loop was created where the vector, class, took 35 samples and replaced them. Class was then duplicated and placed in a vector named, dc. Then a vector named dc2 contained the sum of dc. Then an argument was created where if dc2=0 then two dollars would be subtracted from the total amount of money. Also if dc2 didn't equal 0 then one dollar would be added to the total amount of money.
+
+
 
 # Confidence interval of Brownlows earning
 
