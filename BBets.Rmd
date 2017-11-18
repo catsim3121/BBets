@@ -42,86 +42,39 @@ print(m)
 
 <!--Explain and display your method of coming up with a 95% confidence interval of  professor Brownlows-->
 
-```{r set-up, eval=TRUE}
+First we construst our birthday bucket 
+
+```{r}
 bdays <- 1:365
-m <- 0
-for(i in 1:1137){
-   class <- sample(x=bdays, size = 35,replace=TRUE)
-   dc <- duplicated(class)
-   dc2 <- sum(dc)
-   if(dc2==0) {
-     m <- m-2
-   }
-   if(dc2!=0)
-     m <- m + 1 
-}
-population <- print(m)
-samp_mean <- rep(NA, 50)
-samp_sd <- rep(NA, 50)
-n <- 3
+#bank is a vector in which we add Brownlows profit or loss for each class 
+bank <- numeric(1137) 
+profitperclass <- numeric(30)
 ```
 
-```{r loop, eval=TRUE, tidy = FALSE}
-for(i in 1:50){
-  samp <- sample(population, n, replace = TRUE) 
-  samp_mean[i] <- mean(samp)   
-  samp_sd[i] <- sd(samp)        
-} 
-print(samp_mean)
-```
-
-```{r ci50, eval=TRUE}
-lower_vector <- samp_mean + qnorm(p=.025) * samp_sd / sqrt(n) 
-upper_vector <- samp_mean + qnorm(p=.975) * samp_sd / sqrt(n)
-```
-
-```{r first-interval, eval=TRUE}
-c(lower_vector[1], upper_vector[1])
-```
+Now we grab 35 of these with replacement to form our class
+Need to see if any two are the same for all 1137 bets.
 
 ```{r}
-contains <- function(lo,hi,m){
-   if(m>= lo & m <= hi) return(TRUE)
-   else return(FALSE)
+for (j in 1:30) {
+for (i in 1:1137) {
+class <- sample(x=bdays, size= 35,replace = TRUE)
+result <- anyDuplicated(class)
+bank[i] <- ifelse(result==0,-2,1)
+}
+profit <- sum(bank)
+profitperclass[j]= profit
 }
 ```
 
+Now for our final estimate as 
 
 ```{r}
-plot_ci <- function(lo, hi, m){
-  par(mar=c(2, 1, 1, 1), mgp=c(2.7, 0.7, 0))
-  k <- 50
-  ci.max <- max(rowSums(matrix(c(-1*lo,hi),ncol=2)))
-
-  xR <- m + ci.max*c(-1, 1)
-  yR <- c(0, 41*k/40)
-
-  plot(xR, yR, type='n', xlab='', ylab='', axes=FALSE)
-  abline(v=m, lty=2, col='#00000088')
-  axis(1, at=m, paste("mu = ",round(m,4)), cex.axis=1.15)
-  #axis(2)
-  for(i in 1:k){
-    x <- mean(c(hi[i],lo[i]))
-	  ci <- c(lo[i],hi[i])
-	  if(contains(lo[i],hi[i],m)==FALSE){
-		  col <- "#F05133"
-		  points(x, i, cex=1.4, col=col)
-#		  points(x, i, pch=20, cex=1.2, col=col)
-		  lines(ci, rep(i, 2), col=col, lwd=5)
-	  }
-	  col <- 1
-  	points(x, i, pch=20, cex=1.2, col=col)
-	  lines(ci, rep(i, 2), col=col)
-  }
-}
+estimate <- mean(profit)
+print(estimate)
+confidence <- c(estimate - 2*sd(profitperclass), estimate + 2*sd(profitperclass))
+print(confidence)
 ```
 
-
-```{r plot-ci, eval=TRUE}
-    plot_ci(lower_vector, upper_vector, mean(population))
-```
-
-I first set the population as the total amount of money Brownlow gets with each random sample. I then set vectors to calculate the sample mean and sample standard deviation for each random sample. The amount of samples for the confidence interval is for the loop to occur three different times. I then did a loop of the sample means and standard deviations. I then created vectors that contain the calculations for the upper and lower limits of the confidence interval. I then included the contains and plot_ci functions from the Demo of Conf intervals. The population mean for this is $525. We are 95% confident that the money Brownlow makes from his bets falls between $63.28 and $478.72. 
 
 # Discussion and Conclusion
 
