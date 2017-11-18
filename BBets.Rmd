@@ -74,7 +74,8 @@ print(estimate)
 confidence <- c(estimate - 2*sd(profitperclass), estimate + 2*sd(profitperclass))
 print(confidence)
 ```
-
+##  estimates of winnings:  `r round(estimate,0)`   
+##  95% confidence interval: `r round(confidence,0)`  
 
 # Discussion and Conclusion
 
