@@ -21,22 +21,6 @@ output: html_document: default
 #Profit Estimate
 
 <!--Explain and display the results of your method of coming up with the estimate of professor Brownlows betting!-->
-```{r}
-bdays <- 1:365
-m <- 0
-for(i in 1:1137){
-   class <- sample(x=bdays, size = 35,replace=TRUE)
-   dc <- duplicated(class)
-   dc2 <- sum(dc)
-   if(dc2==0) {
-     m <- m-2
-   }
-   if(dc2!=0)
-     m <- m + 1 
-}
-print(m)
-```
-
 
 # Confidence interval of Brownlows earning
 
@@ -47,4 +31,4 @@ print(m)
 
 <!--Discussion and conclusion here.  If professor Brownlow is consistantly making or losing money how could he change his payout so that his profits center on zero?  Also discuss what size his class should be in order to have his current scheme balance at zero profit.!-->
 
-From the evidence provided by the r code and confidence interval, Brownlow seems to consistently make profit from these bets over the years. For the profits to center at zero, Brownlow would have to bet more money each time he lost the bet. The size of his class should be around fifty to sixty students so that his balance is zero profit. 
+From the evidence provided by the r code and confidence interval, Brownlow seems to consistently make profit from these bets over the years. For the profits to center at zero, Brownlow would have to bet more money each time he lost the bet. The size of his class should be smaller than thirty five (possibly 18) for his profits to center around zero. 
